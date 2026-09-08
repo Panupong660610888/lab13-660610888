@@ -10,7 +10,7 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     errorElement: <ErrorPage />,
     children: [
-      // localhost:xxxx/
+      // localhost:5173/
       { index: true, element: <HomePage /> },
     ],
   },
@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     errorElement: <ErrorPage />,
     children: [
-      // localhost:xxxx/my/todolistpage
+      // localhost:5173/my/todolistpage
       { path: "todolistpage", element: <TodolistPage /> },
     ],
   },

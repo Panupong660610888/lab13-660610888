@@ -1,5 +1,5 @@
-interface SidebarProps  {
+interface SidebarProps {
   userName: string;
-  type?: "admin" |"student";
+  type?: "admin" | "student";
 }
 export type { SidebarProps };

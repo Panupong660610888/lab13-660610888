@@ -2,27 +2,47 @@ import TaskCard from "../components/TaskCard";
 import TodoModal from "../components/Modal";
 import { type TaskCardProps } from "../libs/Todolist";
 import { useState } from "react";
+import { useEffect } from "react";
 
-function App() {
-  const [tasks, setTasks] = useState<TaskCardProps[]>([]);
+const STORAGE_KEY = "lab13.tasks";
+
+function loadTasks(): TaskCardProps[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function TodolistPage() {
+  const [tasks, setTasks] = useState<TaskCardProps[]>(loadTasks);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleAdd = (newTask: TaskCardProps) => {
-    console.log("TODO handleAdd", newTask);
+    setTasks([...tasks, newTask]);
   };
 
   const deleteTask = (taskId: string) => {
-    console.log("TODO deleteTask", taskId);
+    setTasks(tasks.filter((t) => t.id !== taskId));
   };
 
   const toggleDoneTask = (taskId: string) => {
-    console.log("TODO toggleDoneTask", taskId);
+    setTasks(
+      tasks.map((t) => (t.id === taskId ? { ...t, isDone: !t.isDone } : t)),
+    );
   };
 
   return (
     <div className="col-12 m-2 p-0">
       <div className="container text-center">
         <h2>Todo List</h2>
-        <span className="m-2">All : () Done : ()</span>
+        <span className="m-2">
+          All : ({tasks.length}) Done : ({tasks.filter((t) => t.isDone).length})
+        </span>
 
         <div>
           <button
@@ -54,4 +74,4 @@ function App() {
   );
 }
 
-export default App;
+export default TodolistPage;
